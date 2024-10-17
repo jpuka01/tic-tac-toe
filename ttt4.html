@@ -1,0 +1,241 @@
+<!-- 
+ * CS20 HW5: Tic Tac Toe - ttt4.html
+ * By John Puka
+ * 10/16/24
+-->
+
+
+<!-- Head Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <!-- Imported favicon svg -->
+    <link rel="icon" href="./tic-tac-toe.svg" type="image/svg">
+
+    <!-- Internal Styling -->
+     <style>
+        /* Imported Lilita-One font */
+        @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+        h1 {
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            text-align: center;
+            font-size: 36px;
+            color: #FEDF00;
+        }
+        button {
+            color: #FEDF00;
+            background-color: #002776;
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            text-align: center;
+            font-size: 24px;
+            padding: 5px 10px;
+            border: 4px solid #FEDF00;
+        }
+        button:hover {
+            color: #002776;
+            background-color: #FEDF00;
+            border: 4px solid #002776;
+        }
+        .contents {
+            background-color: #009B3A;
+        }
+        .player-turn {
+            color: #FEDF00;
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            text-align: center;
+            background-color: #002776;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 4px solid #FEDF00;
+            margin-left: auto;
+            margin-right: auto;
+            width: 35%;
+            padding: 5px;
+        }
+        .start-button {
+            text-align: center;
+            justify-content: center;
+            padding: 30px 30px;
+        }
+        .grid-board {
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            justify-content: center;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 60px;
+            gap: 5px;
+            margin: auto;
+        }
+        .square {
+            color: #FEDF00;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            border: 4px solid #FEDF00;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+        }
+        .square:hover {
+            background-color: #002776;
+        }
+        .winner-display {
+            color: #FEDF00;
+            background-color: #002776;
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            display: none;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 4px solid #FEDF00;
+            margin-left: auto;
+            margin-right: auto;
+            width: 35%;
+            padding: 5px;
+        }
+     </style>
+</head>
+
+<!-- Body Section - 3x3 grid -->
+ <body class="contents">
+    <h1>Tic Tac Toe</h1>
+    <div id="turn" class="player-turn"></div>
+
+    <!-- Start the game -->
+    <div class="start-button">
+        <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- Dynamically allocate squares -->
+    <div id="grid" class="grid-board">
+        <script>
+            const NUM_SQUARES = 9;
+            for (i = 0; i < NUM_SQUARES; i++) {
+                id = "sq" + i;
+                document.write( "<div class='square' id='" + id + "'></div>" );
+            }
+        </script>
+    </div>
+
+    <div id="winner" class="winner-display"></div>
+
+    <script>
+        let currentPlayer;
+        let gameOver = false;
+
+        // Define win conditions
+        const winConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],    // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],    // Columns
+            [0, 4, 8], [2, 4, 6]                // Diagonals
+        ];
+
+        // Start the game
+        function startGame() {
+            currentPlayer = (Math.random() < 0.5) ? 'X' : 'O';
+            document.getElementById("turn").innerText = "Player " + currentPlayer + "'s Turn";
+
+            document.getElementById("winner").innerText = "";
+            gameOver = false;
+
+            // Clear the grid if 'start game' button is clicked and re-enable pointer events
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                let square = document.getElementById("sq" + i);
+                square.innerText = "";
+                square.style.pointerEvents = 'auto';
+                square.addEventListener("click", handleClicked);
+            }
+
+            // Reset the winner display to none
+            document.getElementById("winner").style.display = "none";
+        }
+
+        // Function event handler for clicking a square --> helper function
+        function handleClicked(event)
+        {
+            if (gameOver) {
+                return;
+            }
+
+            let square = event.target;
+
+            // Check if the square is already occupied
+            if (square.innerText === "") {
+                square.innerText = currentPlayer;
+
+                // Disables a square to be clicked after a player clicks it
+                square.style.pointerEvents = 'none';
+
+                // Check game status after each move
+                checkGameStatus();
+
+                // Alternate players
+                currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+                document.getElementById("turn").innerText = "Player " + currentPlayer + "'s Turn";
+            }
+        }
+
+        // Checks current status of the game --> helper function
+        function checkGameStatus() {
+            let moves =[];
+
+            // Create an array of current board values (X, O, -)
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                let square = document.getElementById("sq" + i);
+                // If square is empty, -, else, maintain current square value
+                moves[i] = square.innerText === "" ? "-" : square.innerText;
+            }
+
+            // Check for win conditions
+            winConditions.forEach(condition => {
+                let [a, b, c] = condition;
+                if (moves[a] !== "-" && moves[a] === moves[b] && moves[b] === moves[c]) {
+                    document.getElementById("winner").innerText = "Player " + currentPlayer + " Wins!";
+                    document.querySelector('.winner-display').style.display = "block";
+                    gameOver = true;
+                    disableAllSquares();
+                }
+            });
+
+            // Check for draw
+            if (!gameOver && !moves.includes("-")) {
+                document.getElementById("winner").innerText = "A Draw!";
+                document.querySelector('.winner-display').style.display = "block";
+                gameOver = true;
+                disableAllSquares();
+            }
+        }
+
+        // Disables all square after a win or a tie condition
+        function disableAllSquares() {
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                let square = document.getElementById("sq" + i);
+                square.style.pointerEvents = 'none';
+            }
+        }
+
+        // Start the game when window is loaded
+        window.onload = startGame();
+    </script>
+ </body>
+ </html>

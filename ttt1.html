@@ -1,0 +1,57 @@
+<!-- 
+ * CS20 HW5: Tic Tac Toe - ttt1.html
+ * By John Puka
+ * 10/16/24
+-->
+
+<!-- TODO: IMPORT FONTS AND ICONS -->
+
+<!-- Head Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="icon" href="#" type="image/png">
+    <!-- Internal Styling -->
+     <style>
+        .grid-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            justify-content: center;
+            padding: 25px;
+            gap: 5px;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            border: 2px solid black;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+        }
+        .square:hover {
+            background-color: #ebebeb;
+        }
+     </style>
+</head>
+
+<!-- Body Section - 3x3 grid -->
+ <body>
+    <div class="grid-board">
+        <div class="square">O</div>
+        <div class="square"></div>
+        <div class="square">X</div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square">X</div>
+        <div class="square"></div>
+    </div>
+ </body>
+ </html>

@@ -1,0 +1,91 @@
+<!-- 
+ * CS20 HW5: Tic Tac Toe - ttt2.html
+ * By John Puka
+ * 10/16/24
+-->
+
+<!-- TODO: IMPORT FONTS AND ICONS -->
+
+<!-- Head Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="icon" href="#" type="image/png">
+    <!-- Internal Styling -->
+     <style>
+        h1 {
+            text-align: center;
+            font-size: 36px;
+        }
+        .player-turn {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid black;
+            width: 50%;
+            transform: translateX(50%);
+        }
+        .grid-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            justify-content: center;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 60px;
+            gap: 5px;
+            margin: auto;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            border: 2px solid black;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+        }
+        .square:hover {
+            background-color: #ebebeb;
+        }
+        .winner-display {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid black;
+            width: 50%;
+            transform: translateX(50%);
+        }
+     </style>
+</head>
+
+<!-- Body Section - 3x3 grid -->
+ <body>
+    <h1>Tic Tac Toe</h1>
+    <div class="player-turn">Player #'s Turn</div>
+    <div class="grid-board">
+        <!-- Generated Grid - JScripts -->
+        <script>
+            const NUM_SQUARES = 9;
+            for (i = 0; i < NUM_SQUARES; i++) {
+                id = "sq" + i;
+                document.write( "<div class='square' id='" + id + "'></div>" );
+            }
+
+            window.onload = function() {
+                // Place X in row 1, column 3
+                document.getElementById("sq2").innerText = "X";
+                // Place O in row 2, column 1
+                document.getElementById("sq3").innerText = "O";
+            }
+        </script>
+    </div>
+    <div class="winner-display">Player # Won!</div>
+ </body>
+ </html>

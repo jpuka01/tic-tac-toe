@@ -1,0 +1,142 @@
+<!-- 
+ * CS20 HW5: Tic Tac Toe - ttt3.html
+ * By John Puka
+ * 10/16/24
+-->
+
+<!-- TODO: IMPORT FONTS AND ICONS -->
+
+<!-- Head Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="icon" href="#" type="image/png">
+
+    <!-- Internal Styling -->
+     <style>
+        h1 {
+            text-align: center;
+            font-size: 36px;
+        }
+        .player-turn {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid black;
+            width: 50%;
+            transform: translateX(50%);
+        }
+        .start-button {
+            text-align: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .grid-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            justify-content: center;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 60px;
+            gap: 5px;
+            margin: auto;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            border: 2px solid black;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+        }
+        .square:hover {
+            background-color: #ebebeb;
+        }
+        .winner-display {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid black;
+            width: 50%;
+            transform: translateX(50%);
+        }
+     </style>
+</head>
+
+<!-- Body Section - 3x3 grid -->
+ <body>
+    <h1>Tic Tac Toe</h1>
+    <div id="turn" class="player-turn"></div>
+
+    <!-- Start the game -->
+    <div class="start-button">
+        <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- Dynamically allocate squares -->
+    <div id="grid" class="grid-board">
+        <script>
+            const NUM_SQUARES = 9;
+            for (i = 0; i < NUM_SQUARES; i++) {
+                id = "sq" + i;
+                document.write( "<div class='square' id='" + id + "'></div>" );
+            }
+        </script>
+    </div>
+
+    <div id="winner" class="winner-display">Player # Won!</div>
+
+    <script>
+        let currentPlayer;
+
+        // Start the game
+        function startGame() {
+            currentPlayer = (Math.random() < 0.5) ? 'X' : 'O';
+            document.getElementById("turn").innerText = "Player " + currentPlayer + "'s turn";
+
+            document.getElementById("winner").innerText = "";
+
+            // Clear the grid if 'start game' button is clicked and re-enable pointer events
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                let square = document.getElementById("sq" + i);
+                square.innerText = "";
+                square.style.pointerEvents = 'auto';
+                square.addEventListener("click", handleClicked);
+            }
+        }
+
+        // Function event handler for clicking a square
+        function handleClicked(event)
+        {
+            let square = event.target;
+
+            // Check if the square is already occupied
+            if (square.innerText === "") {
+                square.innerText = currentPlayer;
+
+                // Removes sq from the square id to obtain just the number
+                let squareNumber = square.id.replace('sq', '');
+                alert("Square " + squareNumber + " clicked.");
+
+                // Disables clicks after already clicked before
+                square.style.pointerEvents = 'none';
+
+                // Alternate players
+                currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+                document.getElementById("turn").innerText = "Player " + currentPlayer + "'s turn";
+            }
+        }
+        
+        // Start the game when window is loaded
+        window.onload = startGame();
+    </script>
+ </body>
+ </html>
