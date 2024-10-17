@@ -3,10 +3,10 @@
 1. Worksheet uploaded in a Word document on Canvas
 2. All files (ttt1 through ttt4) are compressed in zip and uploaded to Canvas
 
-- ttt1.html:
-- ttt2.html:
-- ttt3.html:
-- ttt4.html:
+- ttt1.html: https://jpuka01.github.io/tic-tac-toe/ttt1.html
+- ttt2.html: https://jpuka01.github.io/tic-tac-toe/ttt2.html
+- ttt3.html: https://jpuka01.github.io/tic-tac-toe/ttt3.html
+- ttt4.html(Final Version): https://jpuka01.github.io/tic-tac-toe/ttt4.html
 
 ## Answered Questions
 
